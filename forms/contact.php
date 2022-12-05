@@ -42,5 +42,5 @@
 
 
 <script>
-  alert("hello jneefdckjsdkadvk  ");
+  alert("hellow omar this is last commit of the day  ");
 </script>
