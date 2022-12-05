@@ -39,3 +39,8 @@
 
   echo $contact->send();
 ?>
+
+
+<script>
+  alert("hello world  ");
+</script>
