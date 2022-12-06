@@ -24,7 +24,7 @@ include ("../conn.php");
       <input type="text" name="Phone"  class="form-control">
       <label class="form-label">Company Logo </label>
       <input type="file" name="Logo"  class="form-control">
-      <input type="submit" class="btn btn-primary m-2" name="save" value="submit">
+      <input type="submit" class="btn btn-primary m-2" name="update" value="submit">
       </div>
   </div>
   

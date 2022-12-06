@@ -50,22 +50,36 @@ if(isset($_POST['update'])){
     $address=$_POST['Address'];
 	$filename = $_FILES["Logo"]["name"];
 	$tempname = $_FILES["Logo"]["tmp_name"];
-
 	$folder = "../image/" . $filename;
-
-    $query=mysqli_query($conn,"update company_reg set Name='$cname',
-    Address='$address',
-    phone='$phone',
-    email='$email',  
-    company_logo='$folder'
-    where id='$id' ");
-    if($query){
-        move_uploaded_file($tempname, $folder);
-        header("location:comRegister.php");
+	$folder = "../image/".$filename;
+if(empty($cname)||empty($email)||empty($phone)||empty($address)){
+        ?>
+        <script>
+            alert("all Fields are required");
+            window.location="comRegister.php";
+        </script>
+        <?php
     }
-
-
-
+if(file_exists($folder)){
+    exit("file already exits".$folder);
+}
+else{
+    move_uploaded_file($tempname, $folder);
+	$query=mysqli_query($conn,
+    "INSERT INTO company_reg set
+    Name='$cname', 
+    Address='$address',
+    Phone='$phone',
+    email='$email',
+    company_logo='$folder'
+    ");
+    if($query){    
+     header("location:comRegister.php");
+    }  
+    else{
+        echo "<h4> Query Failed</h4>";
+    }  
+} 
 }
 if(isset($_POST['displaysend'])){
 ?>
@@ -96,7 +110,7 @@ if(isset($_POST['displaysend'])){
         <td><?php echo $rows['email'];?></td>
         <td><?php echo $rows['phone'];?></td>
   
-        <td><img style="width: 25px;"src="<?php echo $rows['company_logo']?>"/></td>
+        <td><img style="width: 55px;"src="<?php echo $rows['company_logo']?>"/></td>
 <td> 
           <a href="comedit.php?id=<?php echo $rows['id'];?>"class="btn btn-outline btn-dark"><i class="fas fa-edit"></i><a>
 		  <button title="Delete" class="btn btn-danger"  onclick="delcom('<?php echo $rows['id'];?>')"><i class="fas fa-trash"></i></button>
@@ -128,6 +142,7 @@ else{
     return ;
 }
 }
+
 ?>
 <script>
     $('document').getready(function(){
