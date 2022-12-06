@@ -5,51 +5,32 @@ include ("../conn.php");
 
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>Image Upload</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="style.css" />
-</head>
-<style>
-	body{
-		background-color :whitesmoke;
-
-
-	}
-</style>
 <body>
-	<div id="content">
-		<form method="POST" action="comprocess.php" enctype="multipart/form-data">
-        <div class="form-group">
-        <label>Company Name</label>
-        <input class="form-control" type="text" name="Name"  />
-			</div>  
-            <div class="form-group">
-            <label>Company Email</label>
-            <input class="form-control" type="text" name="Email" value="" />
-			</div>
-            <div class="form-group">
-            <label>Company Address</label>
-            <input class="form-control" type="text" name="Address" value="" />
-			</div>
-            <div class="form-group">
-            <label>Company Phone</label>
-            <input class="form-control" type="text" name="Phone" value="" />
-			</div>          
-            <div class="form-group">
-				<input class="form-control" type="file" name="logo" value="" />
-			</div>
-            <div class="form-group">
-				<input class="form-control" type="file" name="manager" value="" />
-			</div>
-			<div class="form-group">
-				<button class="btn btn-primary" type="submit" name="save">UPLOAD DATA</button>
-                
-			</div>
-		</form>
+    
+
+<div class="container-lg mt-2">
+<div class="card">
+  <h5 class="card-header bg-info p-1 text-white">Company Registration</h5>
+  <div class="card-body">
+  <form action="comprocess.php" id="company_register" method="Post" enctype="multipart/form-data" >
+    <div class="row">
+      <label class="form-label">Company Name </label>
+      <input type="text" name="Name"  class="form-control">
+      <label class="form-label">Company Email</label>
+      <input type="text" name="Email"  class="form-control">\
+      <label class="form-label">Company Addres </label>
+      <input type="text" name="Address"  class="form-control">
+      <label class="form-label">Company Phone </label>
+      <input type="text" name="Phone"  class="form-control">
+      <label class="form-label">Company Logo </label>
+      <input type="file" name="Logo"  class="form-control">
+      <input type="submit" class="btn btn-primary m-2" name="save" value="submit">
+      </div>
+  </div>
+  
+	
 	</div>
-	<div id="displayDataTable"></div>
+	<div id="displayDataTable" class="mt-3"></div>
 	
 </body>
 

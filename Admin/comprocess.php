@@ -2,44 +2,45 @@
 require '../conn.php';
 error_reporting(0);
 $msg = "";
-// If upload button is clicked ...
 if (isset($_POST['save'])) {
     $cname=$_POST['Name'];
     $email=$_POST['Email'];
     $phone=$_POST['Phone'];
     $address=$_POST['Address'];
-	$filename = $_FILES["logo"]["name"];
-	$tempname = $_FILES["logo"]["tmp_name"];
-    $filename2 = $_FILES["manager"]["name"];
-	$tempname2 = $_FILES["manager"]["tmp_name"];
-	$folder = "./image/" . $filename;
-    $folder2 = "./image/" . $filename2;
+	$filename = $_FILES["Logo"]["name"];
+	$tempname = $_FILES["Logo"]["tmp_name"];
+	$folder = "../image/".$filename;
+if(empty($cname)||empty($email)||empty($phone)||empty($address)){
+        ?>
+        <script>
+            alert("all Fields are required");
+            window.location="comRegister.php";
+        </script>
+        <?php
+    }
+if(file_exists($folder)){
+    exit("file already exits".$folder);
+}
+else{
+    move_uploaded_file($tempname, $folder);
 
 	$query=mysqli_query($conn,
-     "INSERT INTO company_reg  
-     VALUES (null,'$cname','$address','$phone','$email','$folder','$folder2') ") ;
- 
-    if($query){
-        if(move_uploaded_file($tempname, $folder)){
-            echo "<h4> successfuly uploaded </h4>";
+    "INSERT INTO company_reg  
+    VALUES (null,'$cname','$address','$phone','$email','$folder')") ;
+    if($query){    
 
-        }
-       if(move_uploaded_file($tempname2, $folder2)){
-             echo "<h4> successfuly uploaded</h4>";
-        }
-       
-     else{
-        echo "<h4> Failed uploaded</h4>";
-     }
      header("location:comRegister.php");
-    }
+    }  
     else{
-        echo "<h4> Failed uploaded</h4>";
-    }
+        echo "<h4> Query Failed</h4>";
+    }  
+} 
+        }
 
 
+      
 
-}
+
 
 if(isset($_POST['update'])){
     $id=$_POST['id'];
@@ -47,37 +48,20 @@ if(isset($_POST['update'])){
     $email=$_POST['Email'];
     $phone=$_POST['Phone'];
     $address=$_POST['Address'];
-	$filename = $_FILES["uploadfile"]["name"];
-	$tempname = $_FILES["uploadfile"]["tmp_name"];
-    $filename2 = $_FILES["uploadfile2"]["name"];
-	$tempname2 = $_FILES["uploadfile2"]["tmp_name"];
-	$folder = "./image/" . $filename;
-    $folder2 = "./image/" . $filename2;
+	$filename = $_FILES["Logo"]["name"];
+	$tempname = $_FILES["Logo"]["tmp_name"];
+
+	$folder = "../image/" . $filename;
+
     $query=mysqli_query($conn,"update company_reg set Name='$cname',
     Address='$address',
     phone='$phone',
     email='$email',  
-    company_logo='$filename',
-    Owner_pcture='$filename2'
+    company_logo='$folder'
     where id='$id' ");
     if($query){
-        if(move_uploaded_file($tempname, $folder)){
-            echo "<h4> successfuly uploaded </h4>";
-
-        }
-       if(move_uploaded_file($tempname2, $folder2)){
-             echo "<h4> successfuly uploaded</h4>";
-        }
-       
-     else{
-        echo "<h4> Failed uploaded</h4>";
-     }
-     header("location:practice.php");
-
-    }
-
-    else{
-        echo "<h4> Failed To Update</h4>";
+        move_uploaded_file($tempname, $folder);
+        header("location:comRegister.php");
     }
 
 
@@ -95,7 +79,6 @@ if(isset($_POST['displaysend'])){
         <th scope="col">Email</th>    
         <th scope="col">Phone</th>
         <th scope="col">Logo</th>    
-        <th scope="col">Manager</th>
         <th scope="col">Operation</th>
     </tr>
     </thead>
@@ -113,9 +96,7 @@ if(isset($_POST['displaysend'])){
         <td><?php echo $rows['email'];?></td>
         <td><?php echo $rows['phone'];?></td>
   
-        <td><img src="<?php echo $rows['company_logo']?>"/></td>
-        
-        <td><img src="<?php echo $rows['Owner_pcture']?>"/></td>
+        <td><img style="width: 25px;"src="<?php echo $rows['company_logo']?>"/></td>
 <td> 
           <a href="comedit.php?id=<?php echo $rows['id'];?>"class="btn btn-outline btn-dark"><i class="fas fa-edit"></i><a>
 		  <button title="Delete" class="btn btn-danger"  onclick="delcom('<?php echo $rows['id'];?>')"><i class="fas fa-trash"></i></button>
@@ -148,3 +129,9 @@ else{
 }
 }
 ?>
+<script>
+    $('document').getready(function(){
+        ("#myTable").datatable();
+
+    });
+</script>
